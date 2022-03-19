@@ -113,8 +113,10 @@ func NewLcUnixThread(flav uint32) LcUnixThread {
 		//Rsi: 4_294_967_336,
 		//Rip: 4_294_967_656,
 		Rdi: 1,
-		Rsi: 4_294_967_296 + 2048,
+		Rsi: 4_294_967_296 + 10240,
 		Rip: 4_294_967_296 + 1024,
+		// 4_507_069_039
+		// 212_101_743
 	}
 	lcUnixThread := LcUnixThread{
 		header: LcHeader{

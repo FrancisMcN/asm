@@ -45,7 +45,7 @@ func (s LcSegment64) SizeOf() uint32 {
 	return uint32(len(s.Bytes()))
 }
 
-func NewSegment64(name string, vmAddr uint64, vmSize uint64, fileOffset uint64, fileSize uint64, maxProtection uint32, initProtection uint32, sectionHeaders []SectionHeader64) LcSegment64 {
+func NewSegment64(name string, vmAddr uint64, vmSize uint64, fileOffset uint64, fileSize uint64, maxProtection uint32, initProtection uint32, flags uint32, sectionHeaders []SectionHeader64) LcSegment64 {
 
 	segName := make([]byte, 16)
 	for i := 0; i < len(name) && i < 16; i++ {
@@ -73,7 +73,7 @@ func NewSegment64(name string, vmAddr uint64, vmSize uint64, fileOffset uint64, 
 		MaxProtection:  maxProtection,
 		InitProtection: initProtection,
 		NoOfSections:   noOfSections,
-		Flags:          0,
+		Flags:          flags,
 		SectionHeaders: sectionHeaders,
 	}
 	segment.header.CmdSize = segment.SizeOf()
