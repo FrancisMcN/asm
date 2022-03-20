@@ -47,7 +47,7 @@ type LcSymTab struct {
 	stroff  uint32
 	strsize uint32
 
-	symbols []Nlist
+	symbols     []Nlist
 	StringTable StringTable
 }
 
@@ -81,23 +81,23 @@ func (l LcSymTab) SizeOf() uint32 {
 	return uint32(len(l.Bytes()))
 }
 
-func (l *LcSymTab) AddSymbol(symbol string, addr uint64) {
+func (l *LcSymTab) AddSymbol(symbol string, ntype uint8, nsect uint8, ndesc uint16, addr uint64) {
 	l.StringTable.AddString(symbol)
 	l.nsyms++
 	l.strsize = l.StringTable.SizeOf()
 	nstrx := l.StringTable.GetStringOffset(symbol)
-	nlist := NewNlist(nstrx, 0x0F, 0x01, 0, addr)
+	nlist := NewNlist(nstrx, ntype, nsect, ndesc, addr)
 	l.symbols = append(l.symbols, nlist)
 }
 
-func NewLcSymTab(symoff uint32) LcSymTab {
+func NewLcSymTab(symoff uint32, stroff uint32) LcSymTab {
 	lcSymTab := LcSymTab{
 		header: LcHeader{
 			Cmd: SymTabCommand,
 		},
-		symoff:  symoff,
-		stroff: symoff + 2048,
-		symbols: make([]Nlist, 0),
+		symoff:      symoff,
+		stroff:      stroff,
+		symbols:     make([]Nlist, 0),
 		StringTable: NewStringTable(),
 	}
 	lcSymTab.header.CmdSize = lcSymTab.SizeOf()

@@ -15,7 +15,7 @@ func NewMacho() MachO {
 			FileType:   MhExecute,
 			NoOfCmds:   0,
 			SizeOfCmds: 0,
-			Flags:      0,
+			Flags:      0x85,
 			Reserved:   0,
 		},
 	}
@@ -29,7 +29,7 @@ func (m *MachO) AddCommand(cmd LoadCommand) {
 
 func (m *MachO) AddPaddingUpTo(num int) []byte {
 	bytes := make([]byte, 0)
-	if num == 0 || num < len(m.Bytes()) {
+	if num == 0 || num <= len(m.Bytes()) {
 		return bytes
 	}
 	p := len(m.Bytes()) % num
